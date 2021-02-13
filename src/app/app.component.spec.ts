@@ -30,4 +30,12 @@ describe('AppComponent', () => {
     const app = fixture.debugElement.componentInstance;
     expect(app.title).toEqual('application-frontend');
   });
+
+  it('should have the heading 1 with \'Some Content\'', ()=>{
+    const fixture = TestBed.createComponent(AppComponent);
+    expect(fixture.nativeElement.querySelector('h1').innerText).toEqual('Some Content');
+
+    fixture.nativeElement.querySelector('h1').innerText = "New Text";
+    expect(fixture.nativeElement.querySelector('h1').innerText).not.toEqual('Some Content');
+  });
 });
