@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: application-frontend
+spec:
+  selector:
+    matchLabels:
+      deployment-name: application-frontend
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        deployment-name: application-frontend 
+    spec:
+      containers:
+        - name: application-frontend-container
+          image: ehyasin/application-frontend:v0.0.1
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service-label: application-frontend-cluster-service
+  name: application-frontend-cluster-service
+spec:
+  type: ClusterIP
+  ports:
+  - name: application-frontend-service-port
+    port: 80
+    protocol: TCP
+  selector:
+    deployment-name: application-frontend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service-label: application-frontend-cluster-service 
+  name: application-frontend-cluster-service-loadbalancer
+spec:
+  type: LoadBalancer
+  ports:
+  - name: application-frontend-load-balancer-service-port
+    port: 80
+    protocol: TCP
+  selector:
+    deployment-name: application-frontend
