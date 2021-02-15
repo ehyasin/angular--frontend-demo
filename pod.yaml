@@ -14,10 +14,12 @@ spec:
     spec:
       containers:
         - name: application-frontend-container
-          image: b8it148.azurecr.io/ehyasinbit
+          image: ehyasinbit
           imagePullPolicy: Always
           ports:
           - containerPort: 80
+      imagePullSecrets: |
+        $(testSecret)
 ---
 apiVersion: v1
 kind: Service
