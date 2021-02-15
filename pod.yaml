@@ -18,7 +18,7 @@ spec:
           imagePullPolicy: Always
           ports:
           - containerPort: 80
-      imagePullSecrets: |
+      imagePullSecret: |
         $(testSecret)
 ---
 apiVersion: v1
