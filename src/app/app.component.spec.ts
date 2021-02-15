@@ -38,6 +38,6 @@ describe('AppComponent', () => {
     expect(fixture.nativeElement.querySelector('h1').innerText).toEqual('Some Content');
 
     $('h1').text("New Text");
-    expect(fixture.nativeElement.querySelector('h1').innerText).toEqual('Some Content');
+    expect(fixture.nativeElement.querySelector('h1').innerText).not.toEqual('Some Content');
   });
 });
