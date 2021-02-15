@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import * as $ from "jquery";
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,4 +10,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   id = 0;
   title = 'application-frontend';
+  ngOnInit(): void {
+    $("h1").html("this is a test");
+  }
 }

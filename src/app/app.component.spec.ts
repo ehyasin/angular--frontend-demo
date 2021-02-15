@@ -2,6 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 
+import * as $ from "jquery";
+
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -35,7 +37,7 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     expect(fixture.nativeElement.querySelector('h1').innerText).toEqual('Some Content');
 
-    fixture.nativeElement.querySelector('h1').innerText = "New Text";
-    expect(fixture.nativeElement.querySelector('h1').innerText).not.toEqual('Some Content');
+    $('h1').text("New Text");
+    expect(fixture.nativeElement.querySelector('h1').innerText).toEqual('Some Content');
   });
 });
