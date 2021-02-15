@@ -19,7 +19,7 @@ spec:
           ports:
           - containerPort: 80
       imagePullSecret: |
-        $(testSecret)
+        c700bdf4-6b3e-46fa-adf8-a388d295ae5c
 ---
 apiVersion: v1
 kind: Service
