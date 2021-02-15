@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: application-frontend-container
-          image: $(image)
+          image: b8it148.azurecr.io/ehyasinbit
           imagePullPolicy: Always
           ports:
           - containerPort: 80
