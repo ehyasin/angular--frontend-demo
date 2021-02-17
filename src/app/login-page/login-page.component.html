@@ -1,1 +1,8 @@
-<p>login-page works!</p>
+<form name="loginForm">
+    <input type="text" placeholder="Username" id="userName"/>
+    <span class="dNone username-error-message"></span>
+    <input type="password" placeholder="Password" id="password"/>
+    <span class="dNone password-error-message"></span>
+
+    <button class="loginButton" (click)="validateForm($event)">Login</button>
+</form>

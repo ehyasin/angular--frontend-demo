@@ -33,11 +33,11 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('application-frontend');
   });
 
-  it('should have the heading 1 with \'Some Content\'', ()=>{
+  /*it('should have the heading 1 with \'Some Content\'', ()=>{
     const fixture = TestBed.createComponent(AppComponent);
     expect(fixture.nativeElement.querySelector('h1').innerText).toEqual('Some Content');
 
     $('h1').text("New Text");
     expect(fixture.nativeElement.querySelector('h1').innerText).not.toEqual('Some Content');
-  });
+  });*/
 });
