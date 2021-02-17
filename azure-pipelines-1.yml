@@ -25,7 +25,6 @@ variables:
 stages:
 - stage: Deploy
   displayName: Deploy stage
-  dependsOn: Build
 
   jobs:
   - deployment: Deploy
@@ -48,9 +47,26 @@ stages:
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
-              manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yml
-                $(Pipeline.Workspace)/manifests/service.yml
+              manifests:
+                apiVersion : apps/v1
+                kind: Deployment
+                metadata:
+                  name: testing 
+                spec:
+                  replicas: 2
+                  selector:
+                    matchLabels:
+                      app: testing
+                  template:
+                    metadata:
+                      labels:
+                        app: testing 
+                    spec:
+                      containers:
+                        - name: testing 
+                          image: $(containerRegistry)/$(imageRepository):$(tag)
+                          ports:
+                          - containerPort: 80
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |

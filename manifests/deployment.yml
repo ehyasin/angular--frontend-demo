@@ -1,9 +1,18 @@
+resources:
+- repo: self
+
+variables:
+  dockerRegistryServiceConnection: 'c700bdf4-6b3e-46fa-adf8-a388d295ae5c'
+  imageRepository: 'testing'
+  containerRegistry: 'b8it148.azurecr.io'
+  dockerfilePath: '**/Dockerfile'
+  tag: '22'
 apiVersion : apps/v1
 kind: Deployment
 metadata:
   name: testing 
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: testing
