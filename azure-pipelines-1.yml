@@ -1,13 +1,6 @@
 # Deploy to Azure Kubernetes Service
 # Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
-trigger:
-- master
-
-resources:
-- repo: self
-
 variables:
 
   # Container registry service connection established during pipeline creation
@@ -15,60 +8,43 @@ variables:
   imageRepository: 'testing'
   containerRegistry: 'b8it148.azurecr.io'
   dockerfilePath: '**/Dockerfile'
-  tag: '$(Build.BuildId)'
+  tag: '22'
   imagePullSecret: 'b8it14816947a9e-auth'
 
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+steps:
+- task: KubernetesManifest@0
+  displayName: Create imagePullSecret
+  inputs:
+    action: createSecret
+    secretName: $(imagePullSecret)
+    dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
 
-
-stages:
-- stage: Deploy
-  displayName: Deploy stage
-
-  jobs:
-  - deployment: Deploy
-    displayName: Deploy
-    pool:
-      vmImage: $(vmImageName)
-    environment: 'Testing.default'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: KubernetesManifest@0
-            displayName: Create imagePullSecret
-            inputs:
-              action: createSecret
-              secretName: $(imagePullSecret)
-              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
-
-          - task: KubernetesManifest@0
-            displayName: Deploy to Kubernetes cluster
-            inputs:
-              action: deploy
-              manifests:
-                apiVersion : apps/v1
-                kind: Deployment
-                metadata:
-                  name: testing 
-                spec:
-                  replicas: 2
-                  selector:
-                    matchLabels:
-                      app: testing
-                  template:
-                    metadata:
-                      labels:
-                        app: testing 
-                    spec:
-                      containers:
-                        - name: testing 
-                          image: $(containerRegistry)/$(imageRepository):$(tag)
-                          ports:
-                          - containerPort: 80
-              imagePullSecrets: |
-                $(imagePullSecret)
-              containers: |
-                $(containerRegistry)/$(imageRepository):$(tag)
+- task: KubernetesManifest@0
+  displayName: Deploy to Kubernetes cluster
+  inputs:
+    action: deploy
+    manifests:
+      apiVersion : apps/v1
+      kind: Deployment
+      metadata:
+        name: testing 
+      spec:
+        replicas: 2
+        selector:
+          matchLabels:
+            app: testing
+        template:
+          metadata:
+            labels:
+              app: testing 
+          spec:
+            containers:
+              - name: testing 
+                image: $(containerRegistry)/$(imageRepository):$(tag)
+                ports:
+                - containerPort: 80
+    imagePullSecrets: |
+      $(imagePullSecret)
+    containers: |
+      $(containerRegistry)/$(imageRepository):$(tag)
 
